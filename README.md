@@ -80,7 +80,7 @@ Unarchive the files:
 
 Navigate into our new directory:
 
-    $ cd apache-couchdb-1.3.1
+    $ cd apache-couchdb-1.6.1
 
 All that's left is to compile and install to our new CouchDB server. Configure our source code, then build and install it:
 
