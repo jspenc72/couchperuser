@@ -140,6 +140,20 @@ Note: if you want to access your CouchDB server from your local computer, but do
 
 You can now access your server in a browser at http://localhost:5984/_utils.
 
+## Configure CORS
+
+    $ cd /usr/local/etc/couchdb/
+
+Edit the local.ini file
+
+    $ vi local.ini
+
+Add the following to the end of the file
+
+    $ [cors]
+    $ enable_cors = true
+    $ methods = GET, PUT, POST, HEAD, DELETE, OPTIONS
+    $ credentials = true
 
 ----
 Install couchdb.
