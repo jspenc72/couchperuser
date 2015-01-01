@@ -114,6 +114,8 @@ You should see a response like:
 
     $ curl localhost:5984 {"couchdb":"Welcome","uuid":"d79a7c37116364fcc76bcb91901f48c6","version":"1.3.1","vendor":{"name":"The Apache Software Foundation","version":"1.3.1"}}
   
+##Configure Access
+
 By default, CouchDB is only acccessible from the VPS itself. This may be what you want, but let's assume you don't. To allow access from the web, let's change the config file. First, make a backup for safe keeping:
 
     $ cp /usr/local/etc/couchdb/default.ini /usr/local/etc/couchdb/default.ini.bak
