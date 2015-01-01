@@ -173,7 +173,7 @@ NOTE: Disable "Admin Party" Immediately or before doing this if your server is p
     $ chown -R couchdb:couchdb /usr/local/etc/couchdb/local.ini
 
 ----
-##Install couchperuser
+## Install couchperuser-livingroom
 
 https://www.digitalocean.com/community/tutorials/how-to-install-couchdb-from-source-on-an-ubuntu-13-04-x64-vps
 
