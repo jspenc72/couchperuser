@@ -72,7 +72,15 @@ terminate(_Reason, _State) ->
     ok.
 
 ensure_user_db(User) ->
-    User_Db = user_db_name(User),
+    User_Db = user_pri_db_name(User),
+    User_pub_Db = user_pub_db_name(User),
+    case couch_db:open_int(User_pub_Db, [admin_ctx(), nologifmissing]) of
+        Ok={ok, _Db} ->
+            Ok;
+        _Err ->
+            couch_db:create(User_pub_Db, [admin_ctx()])        
+    end,
+
     case couch_db:open_int(User_Db, [admin_ctx(), nologifmissing]) of
         Ok={ok, _Db} ->
             Ok;
@@ -91,8 +99,6 @@ ensure_security(User, {ok, Db}, Acc) ->
         false ->
             update_security(Db, SecProps, Admins, [User | Names])
     end,
-
-
     couch_db:close(Db),
     Acc.
 
@@ -107,8 +113,12 @@ update_security(Db, SecProps, Admins, Names) ->
       }
     ).    
 
-user_db_name(User) ->
-    <<"userdb-", (iolist_to_binary(mochihex:to_hex(User)))/binary>>.
+user_pri_db_name(User) ->
+    <<"userdb-pri", (iolist_to_binary(mochihex:to_hex(User)))/binary>>.
+
+user_pub_db_name(User) ->
+    <<"userdb-pub", (iolist_to_binary(mochihex:to_hex(User)))/binary>>.
+
 
 handle_call(_Msg, _From, State) ->
     {reply, error, State}.
