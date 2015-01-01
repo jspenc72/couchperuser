@@ -87,12 +87,14 @@ ensure_security(User, {ok, Db}, Acc) ->
     {SecProps} = couch_db:get_security(Db),
     {Admins} = couch_util:get_value(<<"admins">>, SecProps, {[]}),
     Names = couch_util:get_value(<<"names">>, Admins, []),
+    User_pub_Db = user_pub_db_name(User),
 
     case lists:member(User, Names) of
         true ->
             ok;
         false ->
-            update_security(Db, SecProps, Admins, [User | Names])
+            update_security(Db, SecProps, Admins, [User | Names]),
+            update_pubdb_security(User_pub_Db, SecProps, Admins, [User | Names])
     end,
     couch_db:close(Db),
     Acc.
@@ -108,11 +110,21 @@ update_security(Db, SecProps, Admins, Names) ->
       }
     ).    
 
+update_pubdb_security(Db, SecProps, Admins, Names) ->
+    NewAdmins = lists:keystore(<<"admins">>, 1, SecProps, {<<"admins">>, {lists:keystore( <<"names">>, 1, Admins, {<<"names">>, Names})}}),
+    couch_db:set_security(
+      Db,
+      {
+        NewAdmins
+      }
+    ).    
+
+
 user_pri_db_name(User) ->
-    <<"userdb-pri", (iolist_to_binary(mochihex:to_hex(User)))/binary>>.
+    <<"userdb-pri-", (iolist_to_binary(mochihex:to_hex(User)))/binary>>.
 
 user_pub_db_name(User) ->
-    <<"userdb-pub", (iolist_to_binary(mochihex:to_hex(User)))/binary>>.
+    <<"userdb-pub-", (iolist_to_binary(mochihex:to_hex(User)))/binary>>.
 
 
 handle_call(_Msg, _From, State) ->
