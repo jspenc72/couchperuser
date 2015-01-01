@@ -58,7 +58,8 @@ change_filter({change, {Doc}, _Prepend}, _ResType, Acc=#filter{}) ->
                     %% TODO: Let's not complicate this with GC for now!
                     Acc;
                 false ->
-                    ensure_security(User, ensure_user_db(User), Acc)
+                    ensure_security(User, ensure_user_db(User), Acc),
+                    ensure_pubdb_security(User, ensure_user_pubdb(User), Acc)
             end;
         _ ->
             Acc
@@ -83,21 +84,43 @@ ensure_user_db(User) ->
             couch_db:create(User_Db, [admin_ctx()])
     end.
 
+ensure_user_pubdb(User) ->
+    User_pub_Db = user_pub_db_name(User),
+    case couch_db:open_int(User_pub_Db, [admin_ctx(), nologifmissing]) of
+        Ok={ok, _Db} ->
+            Ok;
+        _Err ->
+            couch_db:create(User_pub_Db, [admin_ctx()])
+    end.
+
 ensure_security(User, {ok, Db}, Acc) ->
     {SecProps} = couch_db:get_security(Db),
     {Admins} = couch_util:get_value(<<"admins">>, SecProps, {[]}),
     Names = couch_util:get_value(<<"names">>, Admins, []),
-    User_pub_Db = user_pub_db_name(User),
 
     case lists:member(User, Names) of
         true ->
             ok;
         false ->
-            update_security(Db, SecProps, Admins, [User | Names]),
-            update_pubdb_security(User_pub_Db, SecProps, Admins, [User | Names])
+            update_security(Db, SecProps, Admins, [User | Names])
     end,
     couch_db:close(Db),
     Acc.
+
+ensure_pubdb_security(User, {ok, Db}, Acc) ->
+    {SecProps} = couch_db:get_security(Db),
+    {Admins} = couch_util:get_value(<<"admins">>, SecProps, {[]}),
+    Names = couch_util:get_value(<<"names">>, Admins, []),
+
+    case lists:member(User, Names) of
+        true ->
+            ok;
+        false ->
+            update_pubdb_security(Db, SecProps, Admins, [User | Names])
+    end,
+    couch_db:close(Db),
+    Acc.
+
 
 update_security(Db, SecProps, Admins, Names) ->
     NewAdmins = lists:keystore(<<"admins">>, 1, SecProps, {<<"admins">>, {lists:keystore( <<"names">>, 1, Admins, {<<"names">>, Names})}}),
