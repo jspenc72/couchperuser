@@ -71,12 +71,12 @@ Navigate to the directory our source will live:
 
 Grab the source:
 
-    $ curl -O http://www.apache.org/dyn/closer.cgi?path=/couchdb/source/1.6.1/apache-couchdb-1.6.1.tar.gz
+    $ curl -O http://apache.mirrors.tds.net/couchdb/source/1.6.1/apache-couchdb-1.6.1.tar.gz
 
 
 Unarchive the files:
 
-    $ tar xvzf apache-couchdb-1.3.1.tar.gz
+    $ tar xvzf apache-couchdb-1.6.1.tar.gz
 
 Navigate into our new directory:
 
