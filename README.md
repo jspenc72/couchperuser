@@ -89,7 +89,7 @@ All that's left is to compile and install to our new CouchDB server. Configure o
 
 On Ubuntu, CouchDB likes to run as the user couchdb, so let's create it.
 
-    $ adduser --disabled-login --disabled-password --no-create-home couched
+    $ adduser --disabled-login --disabled-password --no-create-home couchdb
 
 You'll see a few prompts for things like Real Name and Room Number. You can leave these blank and hit enter or insert values as you like.
 
