@@ -97,7 +97,7 @@ Now we need to give our new user the right permissions to access CouchDB's files
 
     $ chown -R couchdb:couchdb /usr/local/var/log/couchdb /usr/local/var/lib/couchdb /usr/local/var/run/couchdb
 
-Install CouchDB as a service and allow it to start on boot:
+##Install CouchDB as a service and allow it to start on boot:
 
     $ ln -s /usr/local/etc/init.d/couchdb  /etc/init.d
     $ update-rc.d couchdb defaults
