@@ -155,6 +155,12 @@ Add the following to the end of the file
     $ methods = GET, PUT, POST, HEAD, DELETE, OPTIONS
     $ credentials = true
 
+Allow couchdb service to update the local.ini settings file so you may update settings and users from the web interface....
+
+NOTE: Disable "Admin Party" Immediately or before doing this if your server is public and accessible.
+
+    $ chown -R couchdb:couchdb /usr/local/etc/couchdb/local.ini
+
 ----
 Install couchdb.
 
