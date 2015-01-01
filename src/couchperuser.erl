@@ -74,17 +74,12 @@ terminate(_Reason, _State) ->
 ensure_user_db(User) ->
     User_Db = user_pri_db_name(User),
     User_pub_Db = user_pub_db_name(User),
-    case couch_db:open_int(User_pub_Db, [admin_ctx(), nologifmissing]) of
-        Ok={ok, _Db} ->
-            Ok;
-        _Err ->
-            couch_db:create(User_pub_Db, [admin_ctx()])        
-    end,
 
     case couch_db:open_int(User_Db, [admin_ctx(), nologifmissing]) of
         Ok={ok, _Db} ->
             Ok;
         _Err ->
+            couch_db:create(User_pub_Db, [admin_ctx()]),       
             couch_db:create(User_Db, [admin_ctx()])
     end.
 
