@@ -1,16 +1,27 @@
-couchperuser
-============
+couchperuser-livingroom
+=======================
 
-couchperuser is a CouchDB daemon that ensures that a private per-user
+couchperuser-livingroom is a CouchDB daemon that ensures that two private per-user
 database exists for each document in _users. These databases are
-writable only by the corresponding user.
+administratable only to the corresponding user. 
 
 Currently this is very much purpose-built for CodeCosmos. Databases are
 in the form:
 
-  userdb-{hex encoded username}
+###The couchperuser:
 
-For example, the user `bob` will have a database named `userdb-626f62`.
+  userdb-pub-{hex encoded username}
+  
+  These databases are read/writable to public by default.
+  (Your application can optionally allow user to make this db private to only specified users.)
+
+###The sofaperuser:
+
+  userdb-pri-{hex encoded username}
+    
+  These databases are read/writable only to the corresponding user.   
+
+For example, the user `bob` will have a databases named `userdb-pub-626f62` and  `userdb-pri-626f62`.
 
 The reason for hex encoding is that CouchDB usernames have no restrictions,
 but CouchDB databases have restrictions. Hex encoding the UTF-8
