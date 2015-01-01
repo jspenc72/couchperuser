@@ -46,7 +46,7 @@ Build the plugin files:
 
 Restart couchdb
 
-Digital Ocean "Ubuntu 14.04" Installation Instructions
+# Digital Ocean "Ubuntu 14.04" Installation Instructions
 Start by updating Ubuntu’s package manager:
 
     $ apt-get update
