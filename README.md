@@ -187,7 +187,7 @@ Ensure the `plugins` directory exists, e.g.
 
 Clone (download) the repo:
 
-    $ git clone https://github.com/jspenc72/couchperuser.git
+    $ git clone https://github.com/jspenc72/couchperuser-livingroom.git
 
 Move the plugin files:
 
